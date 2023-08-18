@@ -31,7 +31,7 @@ class ApiTest01 {
 
         Response response = RestAssured.get("/");
 
-        assertTrue(response.contentType().equalsIgnoreCase("application/json;"));
+        assertTrue(response.contentType().equalsIgnoreCase("application/json; charset=utf-8"));
         assertTrue(response.body().asString().startsWith("["));
         assertTrue(response.body().asString().endsWith("]"));
 
