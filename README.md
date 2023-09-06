@@ -6,6 +6,7 @@ This repository serves as a Proof of Concept as it pertains to my learnings of J
 
 First, use git clone to clone this repo to your local machine.
 Second, use your IDE to open the project and install any missing libraries and dependencies, and rebuild the project.
+You must install NPM, as well.
 
 ## How To Run the Search Field on Your Local Machine
 After cloning the repo and opening the Project using an IDE, use the terminal within that IDE to navigate to the "PetShopSearchField" folder.
