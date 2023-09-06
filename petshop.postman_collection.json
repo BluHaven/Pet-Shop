@@ -1,0 +1,162 @@
+{
+	"info": {
+		"_postman_id": "0e1290ea-9330-4f9e-ac49-62142c70f866",
+		"name": "petshop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18471559"
+	},
+	"item": [
+		{
+			"name": "verify status code = 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/pets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"pets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify Body is JSON Array",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('is an Array', () => \r",
+							"pm.expect(pm.response.json()).to.be.an('array').but.not.an('object'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/pets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"pets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find all instances of dogs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Find all instances of dogs\r",
+							"pm.test(\"Find all instances of the species 'dog'\", function () {\r",
+							"    var petsList = pm.response.json();\r",
+							"    var dogCount = 0;\r",
+							"\r",
+							"    // Iterate through array and find all instances of \"dog\"- \r",
+							"    //toLowerCase makes all strings lowercase so its easier to iterate through list and find instances\r",
+							"    petsList.forEach(function (name) {\r",
+							"        if (name.species.toLowerCase().includes('dog')) {\r",
+							"            dogCount++;\r",
+							"        }\r",
+							"    });\r",
+							"\r",
+							"    // Print the number of instances in postmans terminal\r",
+							"    console.log(`Number of instances of the species 'dog': ${dogCount}`);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/pets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"pets"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Replace with the ID of the pet you want to retrieve.",
+					"const id = 1;",
+					"",
+					"pm.sendRequest(`http://localhost:3001/pets/${id}`, function (err, response) {",
+					"    // Check for errors in the request",
+					"    pm.expect(err).to.be.null;",
+					"",
+					"    // Check the status code of the response",
+					"    pm.response.to.have.status(200);",
+					"",
+					"    // Check that the response body is a valid JSON array versus just an Object",
+					"    pm.expect(pm.response.json()).to.be.an('array');",
+					"",
+					"    // Check that the response array contains at least one object",
+					"    pm.expect(pm.response.json()).to.be.an('array').that.is.not.empty;",
+					"",
+					"    // Check that the response array contains an object with the expected ID",
+					"    const pet = pm.response.json().find(p => p.id === id);",
+					"    pm.expect(pet).to.exist;",
+					"",
+					"    // assert all the things",
+					"    pm.expect(pet.name).to.be.a('string');",
+					"    pm.expect(pet.age).to.be.a('number');",
+					"    pm.expect(pet.species).to.be.oneOf(['dog', 'cat', 'bird', 'tarantula', 'snake', 'parrot']);",
+					"});"
+				]
+			}
+		}
+	]
+}
